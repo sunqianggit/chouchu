@@ -1,0 +1,156 @@
+Private Declare Function GetPrivateProfileString Lib "kernel32" _
+    Alias "GetPrivateProfileStringA" _
+    (ByVal lpApplicationName As String, _
+    ByVal lpKeyName As Any, _
+    ByVal lpDefault As String, _
+    ByVal lpReturnedString As String, _
+    ByVal nSize As Long, _
+    ByVal lpFileName As String) As Long
+Private Declare Function WritePrivateProfileString Lib "kernel32" _
+    Alias "WritePrivateProfileStringA" _
+    (ByVal lpApplicationName As String, _
+    ByVal lpKeyName As Any, _
+    ByVal lpString As Any, _
+    ByVal lpFileName As String) As Long
+
+Private Sub CommandButton1_Click()
+Dim myPath
+myPath = ThisWorkbook.Path & "\"
+MsgBox myPath
+
+Dim openCsv As String
+
+Worksheets("Sheet1").Activate
+openCsv = Application.GetOpenFilename("CSVファイル,*.csv")
+If openFile = "False" Then Exit Sub
+
+my = myPath & "exam.xlsx"
+Set wb1 = Workbooks.Open(my)
+
+With Workbooks.Open(openCsv)
+.Sheets(1).Cells.Copy wb1.Sheets(1).Range("A1")
+.Close (SaveChanges = False)
+
+End With
+End Sub
+
+
+Private Sub CommandButton2_Click()
+
+Application.ScreenUpdating = False
+
+Dim myPath
+myPath = ThisWorkbook.Path & "\"
+MsgBox myPath
+
+my = myPath & "exam.xlsx"
+Set wb1 = Workbooks.Open(my)
+
+
+csvA = myPath & "20161104A.csv"
+csvB = myPath & "20161104B.csv"
+csvD = myPath & "20161104D.csv"
+csvE = myPath & "20161104E.csv"
+csvF = myPath & "20161104F.csv"
+csvG = myPath & "20161104H.csv"
+csvAH = myPath & "20161104AH.csv"
+
+Workbooks.Open(csvA).Sheets(1).Cells.Copy wb1.Sheets(1).Range("A1")
+'Workbooks.Open(csvB).Sheets(1).Cells.Copy wb1.Sheets(2).Range("A1")
+'Workbooks.Open(csvD).Sheets(1).Cells.Copy wb1.Sheets(3).Range("A1")
+'Workbooks.Open(csvE).Sheets(1).Cells.Copy wb1.Sheets(4).Range("A1")
+'Workbooks.Open(csvF).Sheets(1).Cells.Copy wb1.Sheets(5).Range("A1")
+'Workbooks.Open(csvG).Sheets(1).Cells.Copy wb1.Sheets(6).Range("A1")
+'Workbooks.Open(csvAH).Sheets(1).Cells.Copy wb1.Sheets(7).Range("A1")
+
+'Workbooks(csvA).Sheets(1).Copy after:=wb1.ActiveSheet
+Dim wb As Workbook
+Dim ws As Worksheet
+Dim lMaxRow As Long
+
+Set wb = Workbooks.Open(csvA)
+Set ws = wb.Sheets(wb.Sheets.Count)
+
+lMaxRow = ws.Range("A" & ws.Rows.Count).End(xlUp).Row
+
+ws.Range("A2:W" & lMaxRow).Copy Destination:=wb1.Sheets(1).Range("A2")
+
+wb.Close
+
+
+
+'open file 2
+Set wb = Workbooks.Open(csvB)
+Set ws = wb.Sheets(wb.Sheets.Count)
+
+lMaxRow = ws.Range("A" & ws.Rows.Count).End(xlUp).Row
+
+ws.Range("A2:W" & lMaxRow).Copy Destination:=wb1.Sheets(2).Range("A2")
+
+wb.Close
+
+Dim strIniFile As String
+strIniFile = myPath & "users.ini"
+
+Dim strSection As String
+strSection = "user1"
+
+Dim strDepict As String
+strDepict = "depict"
+
+Dim strName As String
+strName = "bindlist"
+
+
+
+wb1.Sheets(3).Range("a2") = ReadFromIni(strIniFile, strSection, strUser, "")
+wb1.Sheets(3).Range("b2") = ReadFromIni(strIniFile, strSection, strName, "")
+
+Application.ScreenUpdating = True
+
+MsgBox "ok"
+
+End Sub
+
+
+Sub xxx()
+
+    Dim strIniFile As String
+strIniFile = "D:\xampp\htdocs\ChouChu\" & "notes.ini"
+
+Dim strSection As String
+strSection = "A"
+
+Dim strDepict As String
+strDepict = "num_rows"
+
+Dim strName As String
+strName = "note"
+    
+    MsgBox ReadFromIni(strIniFile, strSection, strDepict, "")
+    MsgBox ReadFromIni(strIniFile, strSection, strName, "")
+    
+    
+    Dim myPath
+myPath = ThisWorkbook.Path & "\"
+my = myPath & "exam.xlsx"
+Set wb1 = Workbooks.Open(my)
+wb1.Sheets(3).Range("a4") = ReadFromIni(strIniFile, strSection, strDepict, "")
+wb1.Sheets(3).Range("a5") = ReadFromIni(strIniFile, strSection, strName, "")
+
+End Sub
+
+
+
+Public Function ReadFromIni(ByVal IniFile As String, ByVal Section As String, ByVal Key As String, ByVal DefaultValue As String) As String
+Dim strRtn As String
+strRtn = Space(256)
+Dim lngRtn As Long
+lngRtn = GetPrivateProfileString(Section, Key, DefaultValue, strRtn, 255, IniFile)
+If lngRtn > 0 Then
+strRtn = Trim(strRtn)
+ReadFromIni = Mid(strRtn, 1, Len(strRtn) - 1)
+Else
+ReadFromIni = DefaultValue
+End If
+End Function

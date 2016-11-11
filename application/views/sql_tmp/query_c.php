@@ -1,0 +1,10 @@
+DELETE ZKBAK ;
+INSERT INTO ZKBAK(BBH,HYNO,TEL,CCBH)
+SELECT    distinct 'zk',a.HYNO AS HYNO,A.TEL AS TEL,a.blockno
+FROM CALL010 a 
+LEFT JOIN FMD060 D ON A.HYNO=D.HYNO 
+LEFT JOIN FMD070 c ON A.SALONNO =c.SLNCD 
+left join FHD030 E on a.HYNO=E.HYNO 
+LEFT JOIN FMD010 A0 ON A.HYNO =A0.HYNO 
+WHERE 
+<?php echo $query_select,chr('13'),$query_a,chr('13'),$query_b;?>

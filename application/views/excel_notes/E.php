@@ -1,0 +1,1 @@
+<?php echo 'コール結果「ＮＧ」、コール状態（「OK」、「不在」）除外'.CSVFILE_LINE.$task_sql?>
