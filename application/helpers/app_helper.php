@@ -40,3 +40,50 @@ if ( ! function_exists('csv_filter_str'))
             return $str;
 	}
 }
+if ( ! function_exists('set_my_checkbox'))
+{
+	/**
+	 * Element
+	 *
+	 * Lets you determine whether an array index is set and whether it has a value.
+	 * If the element is empty it returns NULL (or whatever you specify as the default value.)
+	 *
+	 * @param	string
+	 * @param	array
+	 * @param	mixed
+	 * @return	mixed	depends on what the array contains
+	 */
+	function set_my_checkbox($value = '', $default = FALSE)
+	{
+            if($value === $default){
+                return ' checked="checked"';
+            }else{
+                return '';
+            }
+	}
+}
+
+if ( ! function_exists('json_out'))
+{
+	/**
+	 * Element
+	 *
+	 * Lets you determine whether an array index is set and whether it has a value.
+	 * If the element is empty it returns NULL (or whatever you specify as the default value.)
+	 *
+	 * @param	string
+	 * @param	array
+	 * @param	mixed
+	 * @return	mixed	depends on what the array contains
+	 */
+	function json_out($data = array())
+	{
+            $init_data = array(
+                'status' => false,
+                'msg' => '',
+                'return' => array(),
+            );
+            echo json_encode(array_merge($init_data, $data));
+            exit;
+	}
+}

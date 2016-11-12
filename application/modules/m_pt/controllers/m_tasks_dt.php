@@ -14,7 +14,7 @@ class M_tasks_dt extends CI_Controller {
     public function dataTable() {
         $this->load->database();
         //Important to NOT load the model and let the library load it instead.  
-        $this -> load -> library('Datatable', array('model' => 'pt_mdl', 'rowIdCol' => 'id'));
+        $this -> load -> library('Datatable', array('model' => 'pt_mdl', 'rowIdCol' => 'ccbh'));
                     
 
         //format array is optional, but shown here for the sake of example
@@ -22,7 +22,7 @@ class M_tasks_dt extends CI_Controller {
             function(&$json, &$obj) {
                 $rows =& $json['data'];
                 foreach($rows as &$r) {
-                    $record = $obj->db->where('relate_id', $r['id'])->get('sn_task_detail')->result_array();
+                    $record = $obj->db->where('ccbh', $r['ccbh'])->get('sn_task_detail')->result_array();
                     $r['detail_view'] = $obj->load->view('task_detail_view', array('tasks' => $record), true);
                 }
             });

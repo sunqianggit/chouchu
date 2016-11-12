@@ -51,8 +51,15 @@
                 {"data": "cwbh"},
                 {"data": "status"},
                 {"data": "create_time"},
+                {"data": "$.action"},
             ],
-            "order": [[1, 'asc']]
+            "order": [[1, 'asc']],
+            "fnDrawCallback": function (oSettings) {
+                $('.edit-btn').click(function(){
+                    var id = $(this).data('id');
+                    window.location.href='/tasks/pt/'+id;
+                });
+            }
         });
 
         // Array to track the ids of the details displayed rows
@@ -87,6 +94,16 @@
                 $('#' + id + ' td.details-control').trigger('click');
             });
         });
+        
+        $('#run-chouchu-btn').click(function(){
+            strSel = '';
+            $("[name='pt_task']:checked").each(function(index, element) {
+                strSel += $(this).val() + ",";
+            });
+            $.post('/ajax/serv/exec_tasks', {'tasks':strSel}, function(data){
+                alert(data.msg);
+            },'json');
+        });
     });
 
 </script>
@@ -102,6 +119,7 @@
             <th>除外编号</th>
             <th>状态</th>
             <th>创建日期</th>
+            <th>操作</th>
         </tr>
     </thead>
 <!--                <tfoot>
@@ -112,3 +130,7 @@
         </tr>
     </tfoot>-->
 </table>
+<fieldset>
+    <legend>操作</legend>
+    <input id="run-chouchu-btn" type="button" value="执行抽出SQL">
+</fieldset>

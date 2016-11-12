@@ -48,8 +48,8 @@ class Lc_query_mdl extends CI_Model{
         $this->db->insert_batch('sn_task_detail', $data);
     }
     
-    public function generate_sql($id){
-        $data = $this->db->where('id', $id)->get($this->table)->row_array();
+    public function generate_sql($ccbh){
+        $data = $this->db->where('ccbh', $ccbh)->get($this->table)->row_array();
         $query_arr = array('a','b','d','e','f','g','h');
         $sql_arr = array();
         foreach($query_arr as $val){
@@ -76,12 +76,12 @@ class Lc_query_mdl extends CI_Model{
 //        $this->db->insert($this->table, $insert_arr);
     }
     
-    public function exec_qtchouchu_task($id){
+    public function exec_qtchouchu_task($ccbh){
         $this->db2 = $this->load->database('chouchu_db', TRUE);
         $this->load->dbutil($this->db2);
         $this->load->helper('file');
-        $task = $this->db->where('id', $id)->get('sn_tasks')->row_array();
-        $task_sql = $this->db->where('relate_id', $id)->get('sn_task_detail')->result_array();
+        $task = $this->db->where('ccbh', $ccbh)->get('sn_tasks')->row_array();
+        $task_sql = $this->db->where('ccbh', $ccbh)->get('sn_task_detail')->result_array();
         $Date = date("Ymd");
         $FileDir = FCPATH."/{$Date}/{$task['ccbh']}";
         $inifile_content = "";
@@ -110,7 +110,7 @@ class Lc_query_mdl extends CI_Model{
             }
         }
         $this->write_note_ini($FileDir."/notes.ini", $inifile_content);
-        $this->db->where('id', $id)->update('sn_tasks', array('status' => $exc_status));
+        $this->db->where('ccbh', $ccbh)->update('sn_tasks', array('status' => $exc_status));
     }
     
     public function mk_not_exist_dir($path){

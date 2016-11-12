@@ -15,7 +15,8 @@ class Pt_mdl extends CI_Model implements DatatableModel{
 
         public function appendToSelectStr() {
                 return array(
-                    'task_chk' => 'concat(\'<input class="qt_task" type="checkbox" value="\', id, \'" />\')',
+                    'task_chk' => 'concat(\'<input name="pt_task" type="checkbox" value="\', ccbh, \'" />\')',
+                    'action' => 'concat(\'<input class="edit-btn" type="button" value="编辑" data-id="\', ccbh, \'" />\')'
                 );
         }
 

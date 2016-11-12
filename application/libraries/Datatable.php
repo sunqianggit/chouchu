@@ -340,6 +340,8 @@ class Datatable
                     return '未执行';
                 }else if($value == 1){
                     return '已执行';
+                }else if($value == 2){
+                    return '执行失败';
                 }
         }
 
